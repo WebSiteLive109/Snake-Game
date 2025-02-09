@@ -2,7 +2,13 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 let snake = [{ x: 50, y: 50 }];
 let food = { x: 100, y: 100 };
-let dx = 10, dy = 0;
+
+
+let dx = 0, dy = 0;
+
+  /*   let dx = 10, dy = 0;  */
+
+
 let score = 0;
 let gameInterval;
 function startGame() {
@@ -29,16 +35,20 @@ function drawFood() {
     ctx.fillStyle = "#ff6347"; // Tomato Red
     ctx.fillRect(food.x, food.y, 10, 10);
 }
+
+
 function moveSnake() {
     let head = { x: snake[0].x + dx, y: snake[0].y + dy };
     snake.unshift(head);
+  
     if (head.x === food.x && head.y === food.y) {
-        score += 10;
-        food = generateFood();
+      score += 10;
+      food = generateFood();
     } else {
-        snake.pop();
+      snake.pop();
     }
-}
+  }  
+
 function drawSnake() {
     ctx.fillStyle = "#32cd32"; // Lime Green
     for (let i = 0; i < snake.length; i++) {
@@ -70,6 +80,41 @@ function endGame() {
     clearInterval(gameInterval);
     alert("Game Over! Your final score is: " + score);
 }
+
+
+
+
+
+
+// Handle touch screen input
+document.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const x = touch.clientX;
+    const y = touch.clientY;
+  
+    // Determine the direction of the swipe
+    if (x < window.innerWidth / 2 && y < window.innerHeight / 2) {
+      dx = -1;
+      dy = -1;
+    } else if (x > window.innerWidth / 2 && y < window.innerHeight / 2) {
+      dx = 1;
+      dy = -1;
+    } else if (x < window.innerWidth / 2 && y > window.innerHeight / 2) {
+      dx = -1;
+      dy = 1;
+    } else if (x > window.innerWidth / 2 && y > window.innerHeight / 2) {
+      dx = 1;
+      dy = 1;
+    }
+  });
+
+
+
+
+
+/*
+
 document.addEventListener("keydown", (event) => {
     if (event.key === "ArrowUp" && dy === 0) {
         dx = 0;
@@ -85,3 +130,7 @@ document.addEventListener("keydown", (event) => {
         dy = 0;
     }
 });
+
+*/
+
+
